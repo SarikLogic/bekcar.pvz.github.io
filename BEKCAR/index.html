@@ -1,0 +1,1514 @@
+<!DOCTYPE html>
+<html lang="uz" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BekCar Avtoservis — Ishonchli Ta'mirlash Xizmati</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { inter: ['Inter', 'sans-serif'] },
+                    colors: {
+                        brand: {
+                            50: '#fef2f2',
+                            100: '#fee2e2',
+                            200: '#fecaca',
+                            300: '#fca5a5',
+                            400: '#f87171',
+                            500: '#ef4444',
+                            600: '#dc2626',
+                            700: '#b91c1c',
+                            800: '#991b1b',
+                            900: '#7f1d1d',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { font-family: 'Inter', sans-serif; font-feature-settings: "cv02", "cv03", "cv04", "cv11"; }
+        ::selection { background: rgba(239,68,68,0.3); color: #fecaca; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px) scale(0.98);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            filter: blur(10px);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            filter: blur(0);
+        }
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+        .delay-400 { transition-delay: 400ms; }
+        .delay-500 { transition-delay: 500ms; }
+
+        .hero-gradient {
+            background: linear-gradient(to bottom, transparent, #050505 80%);
+        }
+        .text-gradient {
+            background: linear-gradient(to bottom, #ffffff, #ffffff 50%, rgba(255,255,255,0.4));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .text-gradient-red {
+            background: linear-gradient(135deg, #ef4444, #dc2626, #991b1b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .card-glow:hover {
+            box-shadow: 0 0 40px rgba(239,68,68,0.1), 0 0 80px rgba(239,68,68,0.05);
+        }
+        .pulse-red {
+            animation: pulseRed 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulseRed {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .counter-line {
+            background: linear-gradient(to bottom, #ef4444, transparent);
+        }
+
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+
+        .toast {
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* ============ BekCar kabinet: xizmat tarixi va kafolat ============ */
+        #xizmat-tarixi .bc-card {
+            background: #0a0a0a;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 24px 70px rgba(0,0,0,0.55);
+        }
+        .bc-topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            background: linear-gradient(90deg, #ef4444 0%, #dc2626 45%, #991b1b 100%);
+            padding: 0.7rem 1.1rem;
+            color: #fff;
+            font-size: 0.8rem;
+        }
+        .bc-topbar-label {
+            font-size: 0.6rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.8);
+            white-space: nowrap;
+        }
+        .bc-topbar-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.66rem;
+            font-weight: 600;
+            padding: 0.38rem 0.6rem;
+            border-radius: 0.55rem;
+            background: rgba(0,0,0,0.25);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #fff;
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+        .bc-topbar-btn:hover { background: rgba(0,0,0,0.45); }
+        .bc-tabs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.25rem;
+            padding: 0.3rem;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 1rem;
+        }
+        .bc-tab {
+            padding: 0.62rem 0.5rem;
+            border-radius: 0.75rem;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #94a3b8;
+            transition: 0.2s;
+        }
+        .bc-tab:hover { color: #fff; }
+        .bc-tab.active {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: #fff;
+            box-shadow: 0 8px 20px rgba(220,38,38,0.3);
+        }
+        .bc-label {
+            display: block;
+            font-size: 0.6rem;
+            letter-spacing: 0.09em;
+            text-transform: uppercase;
+            color: #94a3b8;
+            font-weight: 600;
+            margin-bottom: 0.35rem;
+        }
+        .bc-input {
+            width: 100%;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 0.85rem;
+            padding: 0.72rem 0.95rem;
+            font-size: 0.84rem;
+            color: #fff;
+            transition: 0.2s;
+            color-scheme: dark;
+        }
+        .bc-input::placeholder { color: #475569; }
+        .bc-input:focus {
+            outline: none;
+            border-color: rgba(239,68,68,0.55);
+            box-shadow: 0 0 0 3px rgba(239,68,68,0.12);
+            background: rgba(255,255,255,0.05);
+        }
+        .bc-input option { background: #0a0a0a; color: #fff; }
+        textarea.bc-input { resize: vertical; }
+        .bc-input-icon { position: relative; }
+        .bc-input-icon > iconify-icon {
+            position: absolute;
+            left: 0.85rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+            pointer-events: none;
+        }
+        .bc-input-icon .bc-input { padding-left: 2.7rem; }
+        .bc-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.45rem;
+            font-weight: 600;
+            font-size: 0.8rem;
+            padding: 0.72rem 1.05rem;
+            border-radius: 0.85rem;
+            transition: 0.2s;
+            white-space: nowrap;
+        }
+        .bc-btn-red {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: #fff;
+            box-shadow: 0 8px 24px rgba(220,38,38,0.28);
+        }
+        .bc-btn-red:hover { filter: brightness(1.08); transform: translateY(-1px); }
+        .bc-btn-dark {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #e2e8f0;
+        }
+        .bc-btn-dark:hover { background: rgba(255,255,255,0.1); }
+        .bc-btn-sm { padding: 0.45rem 0.7rem; font-size: 0.7rem; border-radius: 0.6rem; }
+        .bc-icon-btn {
+            width: 2.45rem;
+            height: 2.45rem;
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.75rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #94a3b8;
+            transition: 0.2s;
+        }
+        .bc-icon-btn:hover { color: #fff; background: rgba(255,255,255,0.1); }
+        .bc-icon-red {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: #fff;
+            border-color: transparent;
+            box-shadow: 0 6px 18px rgba(220,38,38,0.3);
+        }
+        .bc-error {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            background: rgba(239,68,68,0.08);
+            border: 1px solid rgba(239,68,68,0.25);
+            color: #fca5a5;
+            border-radius: 0.75rem;
+            padding: 0.6rem 0.8rem;
+            font-size: 0.73rem;
+            line-height: 1.4;
+        }
+        .bc-stat {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 0.9rem;
+            padding: 0.65rem 0.75rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.15rem;
+            min-width: 0;
+        }
+        .bc-stat-value {
+            font-weight: 700;
+            font-size: 1rem;
+            color: #fff;
+            line-height: 1.1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .bc-stat-label {
+            font-size: 0.55rem;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+            color: #64748b;
+            line-height: 1.25;
+        }
+        @media (max-width: 480px) {
+            .bc-stat { padding: 0.55rem 0.55rem; }
+            .bc-stat-value { font-size: 0.8rem; }
+            .bc-stat-label { font-size: 0.48rem; }
+        }
+        .bc-plate {
+            display: inline-flex;
+            align-items: center;
+            background: #111;
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.35);
+            border-radius: 0.35rem;
+            padding: 0.15rem 0.5rem;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+        }
+        .bc-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: rgba(0,0,0,0.22);
+            border: 1px solid rgba(255,255,255,0.16);
+            color: rgba(255,255,255,0.92);
+            border-radius: 999px;
+            padding: 0.18rem 0.5rem;
+            font-size: 0.6rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .bc-chip-dark {
+            background: rgba(255,255,255,0.05);
+            border-color: rgba(255,255,255,0.1);
+            color: #cbd5e1;
+        }
+        .bc-chip-muted {
+            background: rgba(0,0,0,0.3);
+            color: rgba(255,255,255,0.6);
+            border-color: rgba(255,255,255,0.12);
+        }
+        .bc-dot { width: 0.34rem; height: 0.34rem; border-radius: 999px; display: inline-block; background: #4ade80; }
+        .bc-status-progress .bc-dot { background: #fbbf24; }
+        .bc-status-planned .bc-dot { background: #94a3b8; }
+        .bc-ticket-wrap {
+            margin-bottom: 0.7rem;
+            filter: drop-shadow(0 10px 18px rgba(0,0,0,0.4));
+            transition: transform 0.25s ease, filter 0.25s ease;
+        }
+        .bc-ticket-wrap:hover {
+            transform: translateY(-2px);
+            filter: drop-shadow(0 14px 24px rgba(220,38,38,0.22));
+        }
+        .bc-ticket {
+            background: linear-gradient(115deg, #dc2626 0%, #b91c1c 55%, #7f1d1d 100%);
+            padding: 1rem 1.25rem;
+            border-radius: 1.15rem;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.12);
+        }
+        @media (min-width: 640px) {
+            .bc-ticket { padding: 1.1rem 1.5rem; }
+        }
+        .bc-date {
+            flex-shrink: 0;
+            width: 3.6rem;
+            padding: 0.4rem 0.25rem;
+            border-radius: 0.8rem;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.18);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+        .bc-date-day { font-size: 1.05rem; font-weight: 800; color: #fff; }
+        .bc-date-mon { font-size: 0.56rem; font-weight: 700; letter-spacing: 0.08em; color: rgba(255,255,255,0.75); margin-top: 0.12rem; }
+        .bc-date-year { font-size: 0.54rem; color: rgba(255,255,255,0.55); margin-top: 0.12rem; }
+        .bc-ticket-title { font-weight: 700; font-size: 0.95rem; color: #fff; line-height: 1.3; }
+        .bc-ticket-desc { font-size: 0.72rem; line-height: 1.5; color: rgba(255,255,255,0.75); margin-top: 0.25rem; }
+        .bc-ticket-meta { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.4rem; font-size: 0.64rem; color: rgba(255,255,255,0.85); }
+        .bc-ticket-meta span { display: inline-flex; align-items: center; gap: 0.25rem; }
+        .bc-ribbon-btn {
+            width: 1.9rem;
+            height: 1.9rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.5rem;
+            background: rgba(0,0,0,0.28);
+            border: 1px solid rgba(255,255,255,0.18);
+            color: rgba(255,255,255,0.85);
+            transition: 0.2s;
+        }
+        .bc-ribbon-btn:hover { background: #050505; color: #fff; }
+        .bc-ticket-pdf {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.4rem;
+            margin-top: 0.7rem;
+            padding-top: 0.6rem;
+            border-top: 1px solid rgba(255,255,255,0.18);
+        }
+        .bc-pdf {
+            display: inline-flex;
+            align-items: center;
+            max-width: 100%;
+            background: rgba(0,0,0,0.28);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 0.55rem;
+            overflow: hidden;
+        }
+        .bc-pdf-open {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.28rem 0.55rem;
+            font-size: 0.62rem;
+            font-weight: 600;
+            color: #fff;
+            min-width: 0;
+        }
+        .bc-pdf-open:hover { background: rgba(0,0,0,0.25); }
+        .bc-pdf-name {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 9rem;
+        }
+        .bc-pdf-dl,
+        .bc-pdf-del {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 1.65rem;
+            height: 1.65rem;
+            color: rgba(255,255,255,0.85);
+            border-left: 1px solid rgba(255,255,255,0.16);
+        }
+        .bc-pdf-dl:hover,
+        .bc-pdf-del:hover { background: rgba(0,0,0,0.3); color: #fff; }
+        .bc-pdf-add {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.28rem 0.55rem;
+            border: 1px dashed rgba(255,255,255,0.4);
+            border-radius: 0.55rem;
+            font-size: 0.6rem;
+            font-weight: 600;
+            color: rgba(255,255,255,0.92);
+        }
+        .bc-pdf-add:hover { background: rgba(0,0,0,0.2); }
+        .bc-vrow {
+            width: 100%;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 0.12rem;
+            padding: 0.62rem 0.75rem;
+            border-radius: 0.8rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.07);
+            transition: 0.2s;
+        }
+        .bc-vrow:hover { border-color: rgba(239,68,68,0.35); background: rgba(239,68,68,0.06); }
+        .bc-vrow.is-active { border-color: rgba(239,68,68,0.5); background: rgba(239,68,68,0.12); }
+        .bc-vrow-model { font-size: 0.78rem; font-weight: 600; color: #f1f5f9; line-height: 1.35; }
+        .bc-vrow-plate { font-size: 0.63rem; color: #f87171; font-weight: 700; letter-spacing: 0.06em; }
+        .bc-vrow-meta { font-size: 0.58rem; color: #64748b; line-height: 1.35; }
+        .bc-info-grid { display: grid; grid-template-columns: 1fr; gap: 0.5rem; }
+        @media (min-width: 640px) {
+            .bc-info-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        }
+        .bc-info-grid > div {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 0.8rem;
+            padding: 0.55rem 0.7rem;
+            min-width: 0;
+        }
+        .bc-info-grid span { display: block; font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.09em; color: #64748b; }
+        .bc-info-grid strong,
+        .bc-info-grid a {
+            display: block;
+            font-size: 0.75rem;
+            color: #e2e8f0;
+            margin-top: 0.15rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .bc-info-grid a:hover { color: #f87171; }
+        .bc-empty { border: 1px dashed rgba(255,255,255,0.12); border-radius: 1rem; }
+        .bc-detail { position: relative; }
+        .bc-fab {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            width: 3.4rem;
+            height: 3.4rem;
+            border-radius: 999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            background: linear-gradient(140deg, #ef4444, #b91c1c);
+            border: 1px solid rgba(255,255,255,0.18);
+            box-shadow: 0 10px 30px rgba(220,38,38,0.45);
+            transition: transform 0.2s;
+            z-index: 5;
+        }
+        .bc-fab:hover { transform: scale(1.06); }
+        .bc-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 90;
+            background: rgba(0,0,0,0.72);
+            -webkit-backdrop-filter: blur(6px);
+            backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        .bc-modal {
+            width: 100%;
+            max-width: 32rem;
+            max-height: 90vh;
+            overflow-y: auto;
+            background: #0a0a0a;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 1.25rem;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.7);
+        }
+        .bc-modal-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1.1rem 1.2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            position: sticky;
+            top: 0;
+            background: #0a0a0a;
+            z-index: 2;
+        }
+        .bc-modal-title { font-size: 1rem; font-weight: 700; color: #fff; }
+        .bc-eyebrow { font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: #f87171; margin-bottom: 0.2rem; }
+        .bc-form { padding: 1.1rem 1.2rem 1.2rem; display: flex; flex-direction: column; gap: 0.85rem; }
+        .bc-form .bc-input { font-size: 0.8rem; padding: 0.65rem 0.8rem; }
+        .bc-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; }
+        @media (max-width: 479px) {
+            .bc-grid2 { grid-template-columns: 1fr; }
+        }
+        .bc-field { display: flex; flex-direction: column; gap: 0.32rem; }
+        .bc-field > span:first-child { font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; font-weight: 600; }
+        .bc-doc {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.7rem 0.8rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 0.9rem;
+        }
+        .bc-doc:hover { border-color: rgba(239,68,68,0.35); }
+        .bc-doc-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            flex-shrink: 0;
+            border-radius: 0.65rem;
+            background: rgba(239,68,68,0.1);
+            border: 1px solid rgba(239,68,68,0.22);
+            color: #f87171;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.05rem;
+        }
+        .bc-doc-icon span { font-size: 0.44rem; font-weight: 700; letter-spacing: 0.06em; }
+        .bc-doc-name {
+            font-size: 0.76rem;
+            font-weight: 600;
+            color: #f1f5f9;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .bc-doc-meta { font-size: 0.6rem; color: #64748b; margin-top: 0.1rem; }
+        .bc-file-box {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 0.85rem;
+            padding: 0.4rem 0.5rem;
+            cursor: pointer;
+            min-width: 0;
+        }
+        .bc-file-box:hover { border-color: rgba(239,68,68,0.45); }
+        .bc-file-input {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            opacity: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        .bc-file-btn {
+            flex-shrink: 0;
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.14);
+            border-radius: 0.5rem;
+            padding: 0.35rem 0.65rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #e2e8f0;
+            white-space: nowrap;
+        }
+        .bc-file-name {
+            font-size: 0.7rem;
+            color: #94a3b8;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .bc-modal-wide { max-width: 56rem; }
+        .bc-docview {
+            height: min(68vh, 640px);
+            margin: 1rem 1.25rem;
+            background: #111;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 0.8rem;
+            overflow: hidden;
+        }
+        .bc-docview iframe { width: 100%; height: 100%; border: 0; background: #fff; }
+    </style>
+</head>
+<body class="bg-[#050505] text-white antialiased overflow-x-hidden">
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast fixed bottom-6 right-6 z-[100] bg-brand-600 text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3">
+        <iconify-icon icon="lucide:check-circle" width="20"></iconify-icon>
+        <span id="toast-message">Xabar yuborildi!</span>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 h-16 border-b border-white/[0.06] bg-[#050505]/80 backdrop-blur-xl">
+        <div class="max-w-7xl mx-auto h-full px-6 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-2.5 group">
+                <div class="w-9 h-9 bg-brand-600 rounded-lg flex items-center justify-center group-hover:bg-brand-500 transition-colors duration-300">
+                    <iconify-icon icon="lucide:wrench" width="18" class="text-white"></iconify-icon>
+                </div>
+                <span class="text-lg font-bold tracking-tight">Bek<span class="text-brand-500">Car</span></span>
+            </a>
+
+            <div class="hidden lg:flex items-center gap-6">
+                <a href="#xizmatlar" class="text-sm text-slate-400 hover:text-white transition-colors duration-300">Xizmatlar</a>
+                <a href="#biz-haqimizda" class="text-sm text-slate-400 hover:text-white transition-colors duration-300">Biz haqimizda</a>
+                <a href="#mobil-xizmat" class="text-sm text-slate-400 hover:text-white transition-colors duration-300">Mobil xizmat</a>
+                <a href="#galereya" class="text-sm text-slate-400 hover:text-white transition-colors duration-300">Galereya</a>
+                <a href="#xizmat-tarixi" class="text-sm text-brand-400 hover:text-white transition-colors duration-300 font-medium">Xizmat tarixi</a>
+                <a href="#aloqa" class="text-sm text-slate-400 hover:text-white transition-colors duration-300">Aloqa</a>
+                <a href="#shop" class="text-sm text-slate-400 hover:text-white transition-colors duration-300">shop</a>
+            </div>
+
+            <div class="hidden lg:flex items-center gap-3">
+                <a href="tel:+998901234567" class="hidden xl:flex items-center gap-2 text-sm text-slate-400 hover:text-white transition-colors">
+                    <iconify-icon icon="lucide:phone" width="14"></iconify-icon>
+                    +351 969 242 279
+                </a>
+                <a href="#aloqa" class="ml-2 bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold px-4 py-2 rounded-lg transition-all duration-150" style="box-shadow: 0 0 20px rgba(239,68,68,0.3);">
+                    Bog'lanish
+                </a>
+                
+                <div class="relative group ml-2">
+                    <button class="text-sm text-slate-400 hover:text-white flex items-center gap-1 transition-colors">
+                        <iconify-icon icon="lucide:globe" width="16"></iconify-icon>
+                        <span id="currentLang" class="uppercase font-medium">EN</span>
+                    </button>
+                    <div class="absolute right-0 top-full mt-2 w-32 bg-[#0a0a0a] border border-white/[0.06] rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 flex flex-col overflow-hidden z-50">
+                        <button onclick="changeLang('en')" class="text-left px-4 py-2.5 text-sm text-slate-300 hover:bg-brand-600 hover:text-white transition-colors">English</button>
+                        <button onclick="changeLang('ru')" class="text-left px-4 py-2.5 text-sm text-slate-300 hover:bg-brand-600 hover:text-white transition-colors">Русский</button>
+                        <button onclick="changeLang('pt')" class="text-left px-4 py-2.5 text-sm text-slate-300 hover:bg-brand-600 hover:text-white transition-colors">Português</button>
+                        <button onclick="changeLang('tr')" class="text-left px-4 py-2.5 text-sm text-slate-300 hover:bg-brand-600 hover:text-white transition-colors">Türkçe</button>
+                        <button onclick="changeLang('uz')" class="text-left px-4 py-2.5 text-sm text-slate-300 hover:bg-brand-600 hover:text-white transition-colors">O'zbek</button>
+                    </div>
+                </div>
+            </div>
+
+            <button id="menuBtn" class="lg:hidden text-white p-2">
+                <iconify-icon icon="lucide:menu" width="22"></iconify-icon>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="mobile-menu fixed top-0 right-0 bottom-0 w-72 z-[60] bg-[#0a0a0a] border-l border-white/[0.06] p-6">
+        <div class="flex justify-between items-center mb-8">
+            <span class="text-lg font-bold">Bek<span class="text-brand-500">Car</span></span>
+            <button id="closeMenu" class="text-slate-400 hover:text-white p-1">
+                <iconify-icon icon="lucide:x" width="22"></iconify-icon>
+            </button>
+        </div>
+        <div class="flex flex-col gap-4">
+            <a href="#xizmatlar" class="mobile-link text-slate-300 hover:text-white py-2 border-b border-white/[0.06] transition-colors">Xizmatlar</a>
+            <a href="#biz-haqimizda" class="mobile-link text-slate-300 hover:text-white py-2 border-b border-white/[0.06] transition-colors">Biz haqimizda</a>
+            <a href="#mobil-xizmat" class="mobile-link text-slate-300 hover:text-white py-2 border-b border-white/[0.06] transition-colors">Mobil xizmat</a>
+            <a href="#galereya" class="mobile-link text-slate-300 hover:text-white py-2 border-b border-white/[0.06] transition-colors">Galereya</a>
+            <a href="#xizmat-tarixi" class="mobile-link text-brand-400 hover:text-white py-2 border-b border-white/[0.06] transition-colors">Xizmat tarixi</a>
+            <a href="#aloqa" class="mobile-link text-slate-300 hover:text-white py-2 border-b border-white/[0.06] transition-colors">Aloqa</a>
+            <a href="tel:+998901234567" class="mt-4 bg-brand-600 text-white text-center font-semibold py-3 rounded-lg">
+                <iconify-icon icon="lucide:phone" width="14" class="mr-1"></iconify-icon>
+                Qo'ng'iroq qilish
+            </a>
+
+            <div class="mt-4 border-t border-white/[0.06] pt-4">
+                <span class="text-xs text-slate-500 uppercase tracking-wider mb-2 block">Tilni tanlash</span>
+                <div class="grid grid-cols-2 gap-2">
+                    <button onclick="changeLang('en'); closeMenuFn()" class="bg-white/[0.05] hover:bg-brand-600 text-slate-300 hover:text-white text-sm py-2 rounded-lg transition-colors">English</button>
+                    <button onclick="changeLang('ru'); closeMenuFn()" class="bg-white/[0.05] hover:bg-brand-600 text-slate-300 hover:text-white text-sm py-2 rounded-lg transition-colors">Русский</button>
+                    <button onclick="changeLang('pt'); closeMenuFn()" class="bg-white/[0.05] hover:bg-brand-600 text-slate-300 hover:text-white text-sm py-2 rounded-lg transition-colors">Português</button>
+                    <button onclick="changeLang('tr'); closeMenuFn()" class="bg-white/[0.05] hover:bg-brand-600 text-slate-300 hover:text-white text-sm py-2 rounded-lg transition-colors">Türkçe</button>
+                    <button onclick="changeLang('uz'); closeMenuFn()" class="bg-white/[0.05] hover:bg-brand-600 text-slate-300 hover:text-white text-sm py-2 rounded-lg transition-colors col-span-2">O'zbek</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="overlay" class="fixed inset-0 z-[55] bg-black/50 hidden"></div>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <!-- Background Image -->
+<div class="absolute inset-0">
+    <img src="foto/begraunt.jpg" alt="Mening rasmim" class="w-full h-full object-cover">
+    <div class="absolute inset-0 bg-gradient-to-b from-[#050505] via-[#050505]/60 to-[#050505]"></div>
+</div>
+
+        <!-- Red glow -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-brand-600/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-6 pt-32 pb-20 md:pt-48 md:pb-32 text-center">
+            <div class="reveal">
+                <div class="inline-flex items-center gap-2 bg-white/[0.05] backdrop-blur-sm border border-white/[0.1] rounded-full px-4 py-1.5 mb-8">
+                    <span class="w-2 h-2 bg-brand-500 rounded-full pulse-red"></span>
+                    <span class="text-xs font-medium text-slate-300 tracking-wide">24/7 Mobil Xizmat</span>
+                </div>
+            </div>
+
+            <h1 class="reveal delay-100 text-4xl md:text-7xl font-extrabold tracking-tighter leading-[1.05] mb-6">
+                <span class="text-gradient">Ishonchli Avtoservis</span><br>
+                <span class="text-gradient-red">BekCar</span>
+            </h1>
+
+            <p class="reveal delay-200 max-w-2xl mx-auto text-lg md:text-xl text-slate-400 font-light leading-relaxed tracking-wide mb-10">
+                Serviço profissional para veículos de diversas marcas. Seu carro ficou na estrada? — Nós vamos até você!
+            </p>
+
+            <div class="reveal delay-300 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#aloqa" class="group bg-brand-600 hover:bg-brand-500 text-white font-semibold px-8 py-4 rounded-xl transition-all duration-150 flex items-center gap-2" style="box-shadow: 0 0 20px rgba(239,68,68,0.3);">
+                    Fale Connosco
+                    <iconify-icon icon="lucide:arrow-right" width="16" class="group-hover:translate-x-0.5 transition-transform"></iconify-icon>
+                </a>
+                <a href="tel:+998901234567" class="group bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.1] hover:border-white/[0.2] text-white font-medium px-8 py-4 rounded-xl transition-all duration-150 flex items-center gap-2">
+                    <iconify-icon icon="lucide:phone" width="16"></iconify-icon>
+                    Qo'ng'iroq qilish
+                </a>
+            </div>
+
+            <!-- Stats -->
+            <div class="reveal delay-400 mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 max-w-3xl mx-auto">
+                <div class="text-center">
+                    <div class="text-2xl md:text-3xl font-bold text-white">10+</div>
+                    <div class="text-xs text-slate-500 mt-1 tracking-wide">Yillik tajriba</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl md:text-3xl font-bold text-white">5000+</div>
+                    <div class="text-xs text-slate-500 mt-1 tracking-wide">Mamnun mijozlar</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl md:text-3xl font-bold text-white">24/7</div>
+                    <div class="text-xs text-slate-500 mt-1 tracking-wide">Mobil xizmat</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl md:text-3xl font-bold text-brand-500">100%</div>
+                    <div class="text-xs text-slate-500 mt-1 tracking-wide">Kafolat</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
+            <span class="text-[10px] text-slate-600 tracking-widest uppercase">Pastga</span>
+            <iconify-icon icon="lucide:arrow-down" width="16" class="text-slate-600"></iconify-icon>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="xizmatlar" class="py-24 md:py-32">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <div class="reveal inline-flex items-center gap-2 bg-brand-600/10 border border-brand-600/20 rounded-full px-4 py-1.5 mb-6">
+                    <iconify-icon icon="lucide:wrench" width="14" class="text-brand-500"></iconify-icon>
+                    <span class="text-xs font-medium text-brand-400 tracking-wide uppercase">Xizmatlarimiz</span>
+                </div>
+                <h2 class="reveal delay-100 text-3xl md:text-5xl font-bold tracking-tight text-gradient mb-4">Professional Ta'mirlash</h2>
+                <p class="reveal delay-200 text-slate-400 font-light text-lg max-w-2xl mx-auto tracking-wide">
+                    Har qanday avtomobil muammosini professional darajada hal qilamiz
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Motor -->
+                <div class="reveal group bg-white/[0.02] border border-white/[0.06] hover:border-brand-600/30 rounded-2xl p-8 md:p-10 transition-all duration-500 card-glow">
+                    <div class="flex items-start gap-5">
+                        <div class="w-14 h-14 bg-brand-600/10 border border-brand-600/20 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-brand-600/20 transition-colors duration-300">
+                            <iconify-icon icon="lucide:cog" width="24" class="text-brand-500"></iconify-icon>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold tracking-tight mb-3">Motor ta'mirlash</h3>
+                            <p class="text-slate-400 font-light leading-relaxed text-sm tracking-wide">
+                                Barcha turdagi motor ta'mirlash va texnik xizmat ko'rsatish. Motor jarimalari, bosim o'lchash, prochetka, shlifovka va to'liq kapital ta'mirlash ishlari bajariladi.
+                            </p>
+                            <div class="mt-4 flex flex-wrap gap-2">
+                                <span class="text-[10px] bg-white/[0.05] text-slate-400 px-2.5 py-1 rounded-md">Kapital ta'mirlash</span>
+                                <span class="text-[10px] bg-white/[0.05] text-slate-400 px-2.5 py-1 rounded-md">Bosim o'lchash</span>
+                                <span class="text-[10px] bg-white/[0.05] text-slate-400 px-2.5 py-1 rounded-md">Shlifovka</span>
+                                <span class="text-[10px] bg-white/[0.05] text-slate-400 px-2.5 py-1 rounded-md">Prochetka</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Karobka -->
+                <div class="reveal delay-100 group bg-white/[0.02] border border-white/[0.06] hover:border-brand-600/30 rounded-2xl p-8 md:p-10 transition-all duration-500 card-glow">
+                    <div class="flex items-start gap-5">
+                        <div class="w-14 h-14 bg-brand-600/10 border border-brand-600/20 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-brand-600/20 transition-colors duration-300">
+                            <iconify-icon icon="lucide:settings-2" width="24" class="text-brand-500"></iconify-icon>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold tracking-tight mb-3">Karobka ta'mirlash</h3>
+                            <p class="text-slate-400 font-light leading-relaxed text-sm tracking-wide">
+                                Mexanik va avtomat karobkalarni professional ta'mirlash. Tishli almashtirish, vityajka, gidrotransformator va barcha turdagi karobka ishlari.
+                            </p>
+                            <div class="mt-4 flex flex-wrap gap-2">
+                                <span class="text-[10px] bg-white/[0.05] text-slate-400 px-2.5 py-1 rounded-md">Mexanik karobka</span>
+                                <span class="text-[10px] bg-white/[0.05] text-slate-400 px-2.5 py-1 rounded-md">Avtomat karobka</span>
+                                <span class="text-[10px] bg-white/[0.05] text-slate-400 px-2.5 py-1 rounded-md">Robot karobka</span>
+                                <span class="text-[10px] bg-white/[0.05] text-slate-400 px-2.5 py-1 rounded-md">Vityajka</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Xadavoy -->
+                <div class="reveal delay-200 group bg-white/[0.02] border border-white/[0.06] hover:border-brand-600/30 rounded-2xl p-8 md:p-10 transition-all duration-500 card-glow">
+                    <div class="flex items-start gap-5">
+                        <div class="w-14 h-14 bg-brand-600/10 border border-brand-600/20 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-brand-600/20 transition-colors duration-300">
+                            <iconify-icon icon="lucide:car" width="24" class="text-brand-500"></iconify-icon>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold tracking-tight mb-3">Xadavoy (kuzov) ishlari</h3>
+                            <p class="text-slate-400 font-light leading-relaxed text-sm tracking-wide">
+                                Kuzov ta'mirlash, raskojka, shpatlevka, pokraska va tokarga olish ishlari. Avtomobilning tashqi ko'rinishini yangilaymiz.
+                            </p>
+                            <div class="mt-4 flex flex-wrap gap-2">
+                                <span class="text-[10px] bg-white/[0.05] text-slate-400 px-2.5 py-1 rounded-md">Raskojka</span>
+                                <span class="text-[10px] bg-white/[0.05] text-slate-400 px-2.5 py-1 rounded-md">Pokraska</span>
+                                <span class="text-[10px] bg-white/[0.05] text-slate-400 px-2.5 py-1 rounded-md">Tokarga olish</span>
+                                <span class="text-[10px] bg-white/[0.05] text-slate-400 px-2.5 py-1 rounded-md">Polirovka</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Elektrik -->
+                <div class="reveal delay-300 group bg-white/[0.02] border border-white/[0.06] hover:border-brand-600/30 rounded-2xl p-8 md:p-10 transition-all duration-500 card-glow">
+                    <div class="flex items-start gap-5">
+                        <div class="w-14 h-14 bg-brand-600/10 border border-brand-600/20 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-brand-600/20 transition-colors duration-300">
+                            <iconify-icon icon="lucide:zap" width="24" class="text-brand-500"></iconify-icon>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold tracking-tight mb-3">Elektrik ishlari</h3>
+                            <p class="text-slate-400 font-light leading-relaxed text-sm tracking-wide">
+                                Avtomobil elektrik tizimlarini ta'mirlash va diagnostika. Startyor, generator, kabel o'rnatish va barcha elektr muammolar.
+                            </p>
+                            <div class="mt-4 flex flex-wrap gap-2">
+                                <span class="text-[10px] bg-white/[0.05] text-slate-400 px-2.5 py-1 rounded-md">Diagnostika</span>
+                                <span class="text-[10px] bg-white/[0.05] text-slate-400 px-2.5 py-1 rounded-md">Startyor</span>
+                                <span class="text-[10px] bg-white/[0.05] text-slate-400 px-2.5 py-1 rounded-md">Generator</span>
+                                <span class="text-[10px] bg-white/[0.05] text-slate-400 px-2.5 py-1 rounded-md">Signalizatsiya</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Yoğalmashtirish card - full width -->
+            <div class="reveal mt-6 group bg-gradient-to-r from-brand-600/10 to-brand-900/10 border border-brand-600/20 hover:border-brand-600/40 rounded-2xl p-8 md:p-10 transition-all duration-500 card-glow relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-brand-600/5 rounded-full blur-[80px] pointer-events-none"></div>
+                <div class="relative flex flex-col md:flex-row items-start md:items-center gap-6">
+                    <div class="w-16 h-16 bg-brand-600/20 border border-brand-600/30 rounded-2xl flex items-center justify-center flex-shrink-0 float-animation">
+                        <iconify-icon icon="lucide:flame" width="28" class="text-brand-500"></iconify-icon>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-xl font-semibold tracking-tight mb-2">Yoğalmashtirish (Chiptyuning)</h3>
+                        <p class="text-slate-400 font-light leading-relaxed text-sm tracking-wide">
+                            Motor quvvatini oshirish, chiptyuning, turbina o'rnatish va sport uskunalari bilan avtomobilning xarakteristikasini yaxshilash. Professional yoğalmashtirish xizmati.
+                        </p>
+                    </div>
+                    <a href="#aloqa" class="bg-brand-600 hover:bg-brand-500 text-white font-semibold px-6 py-3 rounded-xl transition-all duration-150 flex items-center gap-2 flex-shrink-0" style="box-shadow: 0 0 20px rgba(239,68,68,0.3);">
+                        Buyurtma berish
+                        <iconify-icon icon="lucide:arrow-right" width="14"></iconify-icon>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+     <!-- shop -->
+    <section id="shop" class="py-24 md:py-32">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <div class="reveal inline-flex items-center gap-2 bg-white/[0.05] border border-white/[0.1] rounded-full px-4 py-1.5 mb-6">
+                    <iconify-icon icon="lucide:image" width="14" class="text-brand-500"></iconify-icon>
+                    <span class="text-xs font-medium text-slate-300 tracking-wide uppercase">Sotuvda</span>
+                </div>
+                <h2 class="reveal delay-100 text-3xl md:text-5xl font-bold tracking-tight text-gradient mb-4">BecKar.shop</h2>
+                <p class="reveal delay-200 text-slate-400 font-light text-lg max-w-2xl mx-auto tracking-wide">
+                    Har Qanday Avtomobil Ehtiyotqisimarini Biz Orqali Professional Darajada Hal Qiling
+                </p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <div class="reveal group aspect-square rounded-xl overflow-hidden border border-white/[0.06] hover:border-brand-600/30 transition-all duration-500">
+                    <img src="foto/shop1.jpg" alt="Motor ta'mirlash" class="w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-500" />
+                    <div class="absolute inset-0 flex items-end p-4 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <span class="text-sm font-medium">Aksesuar</span>
+                    </div>
+                </div>
+                <div class="reveal delay-100 group aspect-square rounded-xl overflow-hidden border border-white/[0.06] hover:border-brand-600/30 transition-all duration-500">
+                    <img src="foto/shop2.jpg" alt="Karobka ishlari" class="w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-500" />
+                    <div class="absolute inset-0 flex items-end p-4 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <span class="text-sm font-medium">Rul</span>
+                    </div>
+                </div>
+                <div class="reveal delay-200 group aspect-square rounded-xl overflow-hidden border border-white/[0.06] hover:border-brand-600/30 transition-all duration-500">
+                    <img src="foto/shop3.jpg" alt="Xadavoy ishlar" class="w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-500" />
+                    <div class="absolute inset-0 flex items-end p-4 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <span class="text-sm font-medium">Deska Balon</span>
+                    </div>
+                </div>
+                <div class="reveal delay-100 group aspect-square rounded-xl overflow-hidden border border-white/[0.06] hover:border-brand-600/30 transition-all duration-500">
+                    <img src="foto/shop4.jpg" alt="Elektrik ishlari" class="w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-500" />
+                    <div class="absolute inset-0 flex items-end p-4 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <span class="text-sm font-medium">Yoğlar</span>
+                    </div>
+                </div>
+                <div class="reveal delay-200 group aspect-square rounded-xl overflow-hidden border border-white/[0.06] hover:border-brand-600/30 transition-all duration-500">
+                    <img src="foto/shop5.jpg" alt="Yoğalmashtirish" class="w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-500" />
+                    <div class="absolute inset-0 flex items-end p-4 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <span class="text-sm font-medium">Mator zapchast</span>
+                    </div>
+                </div>
+                <div class="reveal delay-300 group aspect-square rounded-xl overflow-hidden border border-white/[0.06] hover:border-brand-600/30 transition-all duration-500 relative">
+                    <img src="foto/shop6.jpg" alt="Mobil xizmat" class="w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-500" />
+                    <div class="absolute inset-0 flex items-end p-4 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <span class="text-sm font-medium">Akumlyator</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mobile Service Section -->
+    <section id="mobil-xizmat" class="py-24 md:py-32 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-brand-600/[0.03] to-transparent pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto px-6 relative">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
+                <div>
+                    <div class="reveal inline-flex items-center gap-2 bg-brand-600/10 border border-brand-600/20 rounded-full px-4 py-1.5 mb-6">
+                        <iconify-icon icon="lucide:truck" width="14" class="text-brand-500"></iconify-icon>
+                        <span class="text-xs font-medium text-brand-400 tracking-wide uppercase">Mobil xizmat</span>
+                    </div>
+                    <h2 class="reveal delay-100 text-3xl md:text-5xl font-bold tracking-tight text-gradient mb-6">
+                        Yo'lada qoldingizmi?<br>
+                        <span class="text-brand-500">Biz kelamiz!</span>
+                    </h2>
+                    <p class="reveal delay-200 text-slate-400 font-light text-lg leading-relaxed tracking-wide mb-8">
+                        Mashinangiz uyda buzildimi yoki yo'l ortida qolib ketdimi? Tashvishlanmang! 
+                        BekCar mobil xizmat jamoasi joyingizga kelib, muammoni joyida hal qiladi. 
+                        24 soat ichida har qanday joyda xizmat ko'rsatamiz.
+                    </p>
+
+                    <div class="space-y-4">
+                        <div class="reveal delay-200 flex items-center gap-3">
+                            <div class="w-8 h-8 bg-brand-600/10 border border-brand-600/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <iconify-icon icon="lucide:check" width="14" class="text-brand-500"></iconify-icon>
+                            </div>
+                            <span class="text-sm text-slate-300">Uyingizga borib xizmat ko'rsatish</span>
+                        </div>
+                        <div class="reveal delay-300 flex items-center gap-3">
+                            <div class="w-8 h-8 bg-brand-600/10 border border-brand-600/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <iconify-icon icon="lucide:check" width="14" class="text-brand-500"></iconify-icon>
+                            </div>
+                            <span class="text-sm text-slate-300">Yo'lada qolgan mashinalarga yordam</span>
+                        </div>
+                        <div class="reveal delay-400 flex items-center gap-3">
+                            <div class="w-8 h-8 bg-brand-600/10 border border-brand-600/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <iconify-icon icon="lucide:check" width="14" class="text-brand-500"></iconify-icon>
+                            </div>
+                            <span class="text-sm text-slate-300">Evakuator xizmati bilan tashish</span>
+                        </div>
+                        <div class="reveal delay-500 flex items-center gap-3">
+                            <div class="w-8 h-8 bg-brand-600/10 border border-brand-600/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <iconify-icon icon="lucide:check" width="14" class="text-brand-500"></iconify-icon>
+                            </div>
+                            <span class="text-sm text-slate-300">Tez yordam — 30 daqiqa ichida yetib boramiz</span>
+                        </div>
+                    </div>
+
+                    <a href="tel:+351 969 242 279" class="reveal delay-500 inline-flex items-center gap-2 mt-8 bg-brand-600 hover:bg-brand-500 text-white font-semibold px-8 py-4 rounded-xl transition-all duration-150" style="box-shadow: 0 0 20px rgba(239,68,68,0.3);">
+                        <iconify-icon icon="lucide:phone" width="16"></iconify-icon>
+                        Hoziq qo'ng'iroq qilish
+                    </a>
+                </div>
+
+                <div class="reveal delay-200 relative">
+                    <div class="aspect-[4/3] rounded-2xl overflow-hidden border border-white/[0.06]">
+                        <img src="foto/yulda qoldingizmi.jpg" alt="Mobil xizmat" class="w-full h-full object-cover opacity-70 hover:opacity-90 transition-opacity duration-500" />
+                    </div>
+                    <!-- Floating badge -->
+                    <div class="absolute -bottom-4 -left-4 bg-[#0a0a0a] border border-brand-600/30 rounded-xl px-5 py-3 flex items-center gap-3" style="box-shadow: 0 0 30px rgba(239,68,68,0.15);">
+                        <div class="w-3 h-3 bg-brand-500 rounded-full pulse-red"></div>
+                        <div>
+                            <div class="text-xs text-brand-400 font-medium">Hozir onlayn</div>
+                            <div class="text-sm font-semibold">Yordamga tayyor</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="biz-haqimizda" class="py-24 md:py-32">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
+                <div class="reveal relative order-2 md:order-1">
+                    <div class="aspect-square rounded-2xl overflow-hidden border border-white/[0.06]">
+                        <img src="foto/Har bir avtomobilga individual yondashuv.jpg" alt="Usta ishda" class="w-full h-full object-cover opacity-60" />
+                    </div>
+                    <!-- Experience badge -->
+                    <div class="absolute top-6 -right-4 md:-right-6 bg-brand-600 rounded-2xl px-6 py-4 text-center" style="box-shadow: 0 0 30px rgba(239,68,68,0.3);">
+                        <div class="text-3xl font-bold text-white">10+</div>
+                        <div class="text-xs text-brand-200 tracking-wide">Yillik tajriba</div>
+                    </div>
+                </div>
+
+                <div class="order-1 md:order-2">
+                    <div class="reveal inline-flex items-center gap-2 bg-white/[0.05] border border-white/[0.1] rounded-full px-4 py-1.5 mb-6">
+                        <iconify-icon icon="lucide:shield-check" width="14" class="text-brand-500"></iconify-icon>
+                        <span class="text-xs font-medium text-slate-300 tracking-wide uppercase">Biz haqimizda</span>
+                    </div>
+                    <h2 class="reveal delay-100 text-3xl md:text-5xl font-bold tracking-tight text-gradient mb-6">
+                        Har bir avtomobilga<br>individual yondashuv
+                    </h2>
+                    <p class="reveal delay-200 text-slate-400 font-light text-lg leading-relaxed tracking-wide mb-6">
+                        BekCar avtoservisi — bu nafaqat ta'mirlash ustaxonasi, balki avtomobilingizga g'amxo'rlik 
+                        qiladigan ishonchli hamroh. 10 yillik tajribamiz bilan har qanday murakkablikdagi 
+                        ishlarni bajaramiz.
+                    </p>
+                    <p class="reveal delay-300 text-slate-500 font-light leading-relaxed tracking-wide mb-8">
+                        Bizning ustalarimiz zamonaviy uskunalar bilan ishlaydi va har bir ishga kafolat beradi. 
+                        Sifat va tezlik — bizning asosiy tamoyillarimiz.
+                    </p>
+
+                    <div class="reveal delay-400 grid grid-cols-2 gap-4">
+                        <div class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-4 text-center">
+                            <iconify-icon icon="lucide:award" width="24" class="text-brand-500 mb-2"></iconify-icon>
+                            <div class="text-sm font-medium">Kafolat</div>
+                            <div class="text-xs text-slate-500 mt-1">Barcha ishlar bo'yicha</div>
+                        </div>
+                        <div class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-4 text-center">
+                            <iconify-icon icon="lucide:clock" width="24" class="text-brand-500 mb-2"></iconify-icon>
+                            <div class="text-sm font-medium">Tez xizmat</div>
+                            <div class="text-xs text-slate-500 mt-1">Minimal kutish vaqti</div>
+                        </div>
+                        <div class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-4 text-center">
+                            <iconify-icon icon="lucide:banknote" width="24" class="text-brand-500 mb-2"></iconify-icon>
+                            <div class="text-sm font-medium">Maqbul narx</div>
+                            <div class="text-xs text-slate-500 mt-1">Sifatli va arzon</div>
+                        </div>
+                        <div class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-4 text-center">
+                            <iconify-icon icon="lucide:users" width="24" class="text-brand-500 mb-2"></iconify-icon>
+                            <div class="text-sm font-medium">Professional usta</div>
+                            <div class="text-xs text-slate-500 mt-1">Tajribali jamoa</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="galereya" class="py-24 md:py-32">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <div class="reveal inline-flex items-center gap-2 bg-white/[0.05] border border-white/[0.1] rounded-full px-4 py-1.5 mb-6">
+                    <iconify-icon icon="lucide:image" width="14" class="text-brand-500"></iconify-icon>
+                    <span class="text-xs font-medium text-slate-300 tracking-wide uppercase">Ishlarimiz</span>
+                </div>
+                <h2 class="reveal delay-100 text-3xl md:text-5xl font-bold tracking-tight text-gradient mb-4">Galereya</h2>
+                <p class="reveal delay-200 text-slate-400 font-light text-lg max-w-2xl mx-auto tracking-wide">
+                    Bajargan ishlarimizdan namunalar
+                </p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <div class="reveal group aspect-square rounded-xl overflow-hidden border border-white/[0.06] hover:border-brand-600/30 transition-all duration-500">
+                    <img src="foto/1foto.jpg" alt="Motor ta'mirlash" class="w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-500" />
+                    <div class="absolute inset-0 flex items-end p-4 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <span class="text-sm font-medium">Motor ta'mirlash</span>
+                    </div>
+                </div>
+                <div class="reveal delay-100 group aspect-square rounded-xl overflow-hidden border border-white/[0.06] hover:border-brand-600/30 transition-all duration-500">
+                    <img src="foto/2foto.jpg" alt="Karobka ishlari" class="w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-500" />
+                    <div class="absolute inset-0 flex items-end p-4 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <span class="text-sm font-medium">Motor ta'mirlash</span>
+                    </div>
+                </div>
+                <div class="reveal delay-200 group aspect-square rounded-xl overflow-hidden border border-white/[0.06] hover:border-brand-600/30 transition-all duration-500">
+                    <img src="foto/3foto.jpg" alt="Xadavoy ishlar" class="w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-500" />
+                </div>
+                <div class="reveal delay-100 group aspect-square rounded-xl overflow-hidden border border-white/[0.06] hover:border-brand-600/30 transition-all duration-500">
+                    <img src="foto/4foto.jpg" alt="Elektrik ishlari" class="w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-500" />
+                </div>
+                <div class="reveal delay-200 group aspect-square rounded-xl overflow-hidden border border-white/[0.06] hover:border-brand-600/30 transition-all duration-500">
+                    <img src="foto/5foto.jpg" alt="Yoğalmashtirish" class="w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-500" />
+                </div>
+                <div class="reveal delay-300 group aspect-square rounded-xl overflow-hidden border border-white/[0.06] hover:border-brand-600/30 transition-all duration-500 relative">
+                    <img src="foto/6foto.jpg" alt="Mobil xizmat" class="w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-500" />
+                    <div class="absolute inset-0 flex items-center justify-center bg-brand-600/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div class="text-center">
+                            <iconify-icon icon="lucide:play" width="32" class="text-white"></iconify-icon>
+                            <div class="text-sm font-medium mt-2">Batafsil</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="py-24 md:py-32 border-t border-white/[0.06]">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <div class="reveal inline-flex items-center gap-2 bg-white/[0.05] border border-white/[0.1] rounded-full px-4 py-1.5 mb-6">
+                    <iconify-icon icon="lucide:list-checks" width="14" class="text-brand-500"></iconify-icon>
+                    <span class="text-xs font-medium text-slate-300 tracking-wide uppercase">Ish jarayoni</span>
+                </div>
+                <h2 class="reveal delay-100 text-3xl md:text-5xl font-bold tracking-tight text-gradient mb-4">Qanday ishlaymiz?</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="reveal text-center group">
+                    <div class="w-16 h-16 mx-auto bg-brand-600/10 border border-brand-600/20 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-brand-600/20 transition-colors duration-300">
+                        <span class="text-2xl font-bold text-brand-500">1</span>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Murojaat</h3>
+                    <p class="text-sm text-slate-400 font-light tracking-wide">Telefon yoki forma orqali bizga murojaat qiling</p>
+                </div>
+                <div class="reveal delay-100 text-center group">
+                    <div class="w-16 h-16 mx-auto bg-brand-600/10 border border-brand-600/20 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-brand-600/20 transition-colors duration-300">
+                        <span class="text-2xl font-bold text-brand-500">2</span>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Diagnostika</h3>
+                    <p class="text-sm text-slate-400 font-light tracking-wide">Avtomobilingizni to'liq tekshiramiz va muammoni aniqlaymiz</p>
+                </div>
+                <div class="reveal delay-200 text-center group">
+                    <div class="w-16 h-16 mx-auto bg-brand-600/10 border border-brand-600/20 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-brand-600/20 transition-colors duration-300">
+                        <span class="text-2xl font-bold text-brand-500">3</span>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Ta'mirlash</h3>
+                    <p class="text-sm text-slate-400 font-light tracking-wide">Professional ustalar sifatli ta'mirlash amalga oshiradi</p>
+                </div>
+                <div class="reveal delay-300 text-center group">
+                    <div class="w-16 h-16 mx-auto bg-brand-600/10 border border-brand-600/20 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-brand-600/20 transition-colors duration-300">
+                        <span class="text-2xl font-bold text-brand-500">4</span>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Kafolat</h3>
+                    <p class="text-sm text-slate-400 font-light tracking-wide">Bajarilgan ishlar bo'yicha kafolat beramiz</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Service history / customer cabinet -->
+    <section id="xizmat-tarixi" class="py-24 md:py-32 relative border-t border-white/[0.06] scroll-mt-20 overflow-hidden">
+        <div class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-brand-600/10 rounded-full blur-[120px] pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto px-6 relative">
+            <div class="text-center mb-14">
+                <div class="reveal inline-flex items-center gap-2 bg-brand-600/10 border border-brand-600/20 rounded-full px-4 py-1.5 mb-6">
+                    <iconify-icon icon="lucide:shield-check" width="14" class="text-brand-500"></iconify-icon>
+                    <span class="text-xs font-medium text-brand-400 tracking-wide uppercase">Shaxsiy kabinet</span>
+                </div>
+                <h2 class="reveal delay-100 text-3xl md:text-5xl font-bold tracking-tight text-gradient mb-4">Xizmat tarixi va kafolat</h2>
+                <p class="reveal delay-200 text-slate-400 font-light text-lg max-w-2xl mx-auto tracking-wide">
+                    Davlat raqami va VIN raqamini kiriting — bajarilgan ishlar, narxlar va kafolat muddati shu yerda.
+                </p>
+            </div>
+            <div id="bc-app" class="reveal"></div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="aloqa" class="py-24 md:py-32 relative">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brand-600/5 rounded-full blur-[120px] pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto px-6 relative">
+            <div class="text-center mb-16">
+                <div class="reveal inline-flex items-center gap-2 bg-brand-600/10 border border-brand-600/20 rounded-full px-4 py-1.5 mb-6">
+                    <iconify-icon icon="lucide:message-circle" width="14" class="text-brand-500"></iconify-icon>
+                    <span class="text-xs font-medium text-brand-400 tracking-wide uppercase">Aloqa</span>
+                </div>
+                <h2 class="reveal delay-100 text-3xl md:text-5xl font-bold tracking-tight text-gradient mb-4">Biz bilan bog'laning</h2>
+                <p class="reveal delay-200 text-slate-400 font-light text-lg max-w-2xl mx-auto tracking-wide">
+                    Quyidagi formani to'ldiring yoki to'g'ridan-to'g'ri qo'ng'iroq qiling
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                <!-- Contact Form -->
+                <div class="reveal bg-white/[0.02] border border-white/[0.06] rounded-2xl p-8">
+                    <form id="contactForm" class="space-y-5">
+                       <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-2 tracking-wide">madelni kiriting</label>
+                            <input type="text" name="model" required placeholder="model" class="w-full bg-white/[0.03] border border-white/[0.1] rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-brand-600/50 focus:ring-1 focus:ring-brand-600/50 transition-all duration-300">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-2 tracking-wide">Ismingiz</label>
+                            <input type="text" name="name" required placeholder="Ismingizni kiriting" class="w-full bg-white/[0.03] border border-white/[0.1] rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-brand-600/50 focus:ring-1 focus:ring-brand-600/50 transition-all duration-300">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-2 tracking-wide">Telefon raqamingiz</label>
+                            <input type="tel" name="phone" required placeholder="+351 969 242 279" class="w-full bg-white/[0.03] border border-white/[0.1] rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-brand-600/50 focus:ring-1 focus:ring-brand-600/50 transition-all duration-300">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-2 tracking-wide">Xizmat turi</label>
+                            <select name="service" class="w-full bg-white/[0.03] border border-white/[0.1] rounded-xl px-4 py-3 text-sm text-slate-400 focus:outline-none focus:border-brand-600/50 focus:ring-1 focus:ring-brand-600/50 transition-all duration-300">
+                                <option value="">Tanlang...</option>
+                                <option value="motor">Motor ta'mirlash</option>
+                                <option value="karobka">Karobka ta'mirlash</option>
+                                <option value="xadavoy">Xadavoy ishlari</option>
+                                <option value="elektrik">Elektrik ishlari</option>
+                                <option value="yogalmashtirish">Yoğalmashtirish</option>
+                                <option value="mobil">Mobil xizmat (joyga borish)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-2 tracking-wide">Qo'shimcha ma'lumot</label>
+                            <textarea name="message" rows="4" placeholder="Muammo haqida batafsil yozing..." class="w-full bg-white/[0.03] border border-white/[0.1] rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-brand-600/50 focus:ring-1 focus:ring-brand-600/50 transition-all duration-300 resize-none"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-brand-600 hover:bg-brand-500 text-white font-semibold py-4 rounded-xl transition-all duration-150 flex items-center justify-center gap-2" style="box-shadow: 0 0 20px rgba(239,68,68,0.3);">
+                            <iconify-icon icon="lucide:send" width="16"></iconify-icon>
+                            Xabar yuborish
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="space-y-6">
+                    <div class="reveal delay-100 bg-white/[0.02] border border-white/[0.06] rounded-2xl p-6 flex items-start gap-4 group hover:border-brand-600/30 transition-all duration-500">
+                        <div class="w-12 h-12 bg-brand-600/10 border border-brand-600/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                            <iconify-icon icon="lucide:phone" width="20" class="text-brand-500"></iconify-icon>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold mb-1">Telefon</h3>
+                            <a href="tel:+351969242279" class="text-sm text-slate-400 hover:text-brand-400 transition-colors">+351 969 242 279</a><br>
+                            <a href="tel:+351 969 242 279" class="text-sm text-slate-400 hover:text-brand-400 transition-colors">+351 969 242 279</a>
+                        </div>
+                    </div>
+
+                    <div class="reveal delay-200 bg-white/[0.02] border border-white/[0.06] rounded-2xl p-6 flex items-start gap-4 group hover:border-brand-600/30 transition-all duration-500">
+                        <div class="w-12 h-12 bg-brand-600/10 border border-brand-600/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                            <iconify-icon icon="lucide:map-pin" width="20" class="text-brand-500"></iconify-icon>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold mb-1">Manzil</h3>
+                            <p class="text-sm text-slate-400">BekCar, R. do Comendador Francisco Quintas,<br>4490-489 Póvoa de Varzim, Португалия</p>
+                        </div>
+                    </div>
+                    
+                    <div class="reveal delay-300 bg-white/[0.02] border border-white/[0.06] rounded-2xl p-6 flex items-start gap-4 group hover:border-brand-600/30 transition-all duration-500">
+                        <div class="w-12 h-12 bg-brand-600/10 border border-brand-600/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                            <iconify-icon icon="lucide:clock" width="20" class="text-brand-500"></iconify-icon>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold mb-1">Ish vaqti</h3>
+                            <p class="text-sm text-slate-400">Dush-Shan: 08:00 — 20:00<br><span class="text-brand-400">Mobil xizmat: 24/7</span></p>
+                        </div>
+                    </div>
+
+                    <div class="reveal delay-400 bg-white/[0.02] border border-white/[0.06] rounded-2xl p-6 flex items-start gap-4 group hover:border-brand-600/30 transition-all duration-500">
+                        <div class="w-12 h-12 bg-brand-600/10 border border-brand-600/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                            <iconify-icon icon="lucide:message-circle" width="20" class="text-brand-500"></iconify-icon>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold mb-1">Ijtimoiy tarmoqlar</h3>
+                            <div class="flex gap-3 mt-2">
+                                <a href="https://www.instagram.com/shurik.bek/" class="w-9 h-9 bg-white/[0.05] border border-white/[0.1] rounded-lg flex items-center justify-center hover:bg-brand-600/20 hover:border-brand-600/30 transition-all duration-300">
+                                    <iconify-icon icon="lucide:instagram" width="16" class="text-slate-400"></iconify-icon>
+                                </a>
+                                <a href="https://wa.me/351969242279" class="w-9 h-9 bg-white/[0.05] border border-white/[0.1] rounded-lg flex items-center justify-center hover:bg-brand-600/20 hover:border-brand-600/30 transition-all duration-300">
+                                    <iconify-icon icon="lucide:send" width="16" class="text-slate-400"></iconify-icon>
+                                </a>
+                                <a href="https://www.facebook.com/shurik.bek.5?mibextid=wwXIfr&rdid=AbLWELiWlfle2HLx&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1DHBwVKFio%2F%3Fmibextid%3DwwXIfr#" class="w-9 h-9 bg-white/[0.05] border border-white/[0.1] rounded-lg flex items-center justify-center hover:bg-brand-600/20 hover:border-brand-600/30 transition-all duration-300">
+                                    <iconify-icon icon="lucide:facebook" width="16" class="text-slate-400"></iconify-icon>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 border-t border-white/[0.06]">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <div class="reveal bg-gradient-to-r from-brand-600/10 via-brand-600/5 to-brand-600/10 border border-brand-600/20 rounded-3xl p-10 md:p-16 relative overflow-hidden">
+                <div class="absolute top-0 left-1/2 -translate-x-1/2 w-80 h-40 bg-brand-600/10 rounded-full blur-[80px] pointer-events-none"></div>
+                <div class="relative">
+                    <h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-4">Mashinangizga g'amxo'rlik kerakmi?</h2>
+                    <p class="text-slate-400 font-light text-lg mb-8 tracking-wide max-w-xl mx-auto">
+                        Hoziroq bizga murojaat qiling va professional xizmatdan foydalaning. Birinchi diagnostika — bepul!
+                    </p>
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <a href="tel:+998901234567" class="bg-brand-600 hover:bg-brand-500 text-white font-semibold px-8 py-4 rounded-xl transition-all duration-150 flex items-center gap-2" style="box-shadow: 0 0 20px rgba(239,68,68,0.3);">
+                            <iconify-icon icon="lucide:phone" width="16"></iconify-icon>
+                            Qo'ng'iroq qilish
+                        </a>
+                        <a href="#aloqa" class="bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.1] hover:border-white/[0.2] text-white font-medium px-8 py-4 rounded-xl transition-all duration-150 flex items-center gap-2">
+                            Forma orqali
+                            <iconify-icon icon="lucide:arrow-right" width="14"></iconify-icon>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="pt-16 pb-8 border-t border-white/[0.06]">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-12">
+                <div>
+                    <a href="#" class="flex items-center gap-2.5 mb-4">
+                        <div class="w-9 h-9 bg-brand-600 rounded-lg flex items-center justify-center">
+                            <iconify-icon icon="lucide:wrench" width="18" class="text-white"></iconify-icon>
+                        </div>
+                        <span class="text-lg font-bold tracking-tight">Bek<span class="text-brand-500">Car</span></span>
+                    </a>
+                    <p class="text-sm text-slate-500 font-light leading-relaxed tracking-wide max-w-xs">
+                        Ishonchli avtoservis xizmati. Motor, karobka, xadavoy, elektrik va yoğalmashtirish ishlari. Mobil xizmat — 24/7.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-sm font-semibold mb-4 tracking-wide">Xizmatlar</h4>
+                    <ul class="space-y-2.5">
+                        <li><a href="#xizmatlar" class="text-sm text-slate-500 hover:text-brand-400 transition-colors duration-300">Motor ta'mirlash</a></li>
+                        <li><a href="#xizmatlar" class="text-sm text-slate-500 hover:text-brand-400 transition-colors duration-300">Karobka ta'mirlash</a></li>
+                        <li><a href="#xizmatlar" class="text-sm text-slate-500 hover:text-brand-400 transition-colors duration-300">Xadavoy ishlari</a></li>
+                        <li><a href="#xizmatlar" class="text-sm text-slate-500 hover:text-brand-400 transition-colors duration-300">Elektrik ishlari</a></li>
+                        <li><a href="#xizmatlar" class="text-sm text-slate-500 hover:text-brand-400 transition-colors duration-300">Yoğalmashtirish</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-sm font-semibold mb-4 tracking-wide">Bog'lanish</h4>
+                    <ul class="space-y-2.5">
+                        <li class="text-sm text-slate-500 flex items-center gap-2">
+                            <iconify-icon icon="lucide:phone" width="13" class="text-brand-500/60"></iconify-icon>
+                            +351 969 242 279
+                        </li>
+                        <li class="text-sm text-slate-500 flex items-center gap-2">
+                            <iconify-icon icon="lucide:map-pin" width="13" class="text-brand-500/60"></iconify-icon>
+                            BekCar, Португалия
+                        </li>
+                        <li class="text-sm text-slate-500 flex items-center gap-2">
+                            <iconify-icon icon="lucide:clock" width="13" class="text-brand-500/60"></iconify-icon>
+                            Dush-Shan: 08:00 — 20:00
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-white/[0.06] pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
+                <p class="text-[10px] text-slate-600 tracking-widest uppercase">© 2024 BekCar Avtoservis. Barcha huquqlar himoyalangan.</p>
+                <div class="flex items-center gap-4">
+                    <a href="https://www.instagram.com/shurik.bek/" class="w-8 h-8 bg-white/[0.03] border border-white/[0.06] rounded-lg flex items-center justify-center hover:bg-brand-600/10 hover:border-brand-600/20 transition-all duration-300">
+                        <iconify-icon icon="lucide:instagram" width="14" class="text-slate-500"></iconify-icon>
+                    </a>
+                    <a href="https://wa.me/351969242279" class="w-8 h-8 bg-white/[0.03] border border-white/[0.06] rounded-lg flex items-center justify-center hover:bg-brand-600/10 hover:border-brand-600/20 transition-all duration-300">
+                        <iconify-icon icon="lucide:send" width="14" class="text-slate-500"></iconify-icon>
+                    </a>
+                    <a href="https://www.facebook.com/shurik.bek.5?mibextid=wwXIfr&rdid=AbLWELiWlfle2HLx&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1DHBwVKFio%2F%3Fmibextid%3DwwXIfr#" class="w-8 h-8 bg-white/[0.03] border border-white/[0.06] rounded-lg flex items-center justify-center hover:bg-brand-600/10 hover:border-brand-600/20 transition-all duration-300">
+                        <iconify-icon icon="lucide:facebook" width="14" class="text-slate-500"></iconify-icon>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Call Button (Mobile) -->
+    <a href="tel:+351 969 242 279" class="fixed bottom-6 left-6 z-40 md:hidden w-14 h-14 bg-brand-600 rounded-full flex items-center justify-center shadow-lg hover:bg-brand-500 transition-colors" style="box-shadow: 0 0 25px rgba(239,68,68,0.4);">
+        <iconify-icon icon="lucide:phone" width="22" class="text-white"></iconify-icon>
+    </a>
+
+    <script>
+        // Mobile menu
+        const menuBtn = document.getElementById('menuBtn');
+        const closeMenu = document.getElementById('closeMenu');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const overlay = document.getElementById('overlay');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        function openMenu() {
+            mobileMenu.classList.add('open');
+            overlay.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeMenuFn() {
+            mobileMenu.classList.remove('open');
+            overlay.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        menuBtn.addEventListener('click', openMenu);
+        closeMenu.addEventListener('click', closeMenuFn);
+        overlay.addEventListener('click', closeMenuFn);
+        mobileLinks.forEach(link => link.addEventListener('click', closeMenuFn));
+
+        // Reveal on scroll
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // Toast notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-message');
+            toastMsg.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Contact form
+        const contactForm = document.getElementById('contactForm');
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = this.elements.name.value;
+            const phone = this.elements.phone.value;
+            const service = this.elements.service.value;
+            const message = this.elements.message.value;
+
+            if (!name || !phone) {
+                showToast('❗ Iltimos, ism va telefon raqamni kiriting');
+                return;
+            }
+
+            // WhatsApp redirection
+            const btn = this.querySelector('button[type="submit"]');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<iconify-icon icon="lucide:loader-2" width="16" class="animate-spin"></iconify-icon> Yuborilmoqda...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                const whatsappNumber = '351969242279';
+                const waMessage = `Yangi buyurtma (BekCar):\nIsm: ${name}\nTelefon: ${phone}\nXizmat turi: ${service}\nXabar: ${message}`;
+                const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(waMessage)}`;
+                window.open(whatsappUrl, '_blank');
+                
+                showToast('✅ Xabar jo\'natildi! WhatsApp ochilmoqda...');
+                contactForm.reset();
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }, 800);
+        });
+
+        // Navbar background on scroll
+        const nav = document.querySelector('nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                nav.style.borderBottomColor = 'rgba(255,255,255,0.08)';
+                nav.style.backgroundColor = 'rgba(5,5,5,0.95)';
+            } else {
+                nav.style.borderBottomColor = 'rgba(255,255,255,0.06)';
+                nav.style.backgroundColor = 'rgba(5,5,5,0.8)';
+            }
+        });
+    </script>
+    <!-- Cabinet modals -->
+    <div id="bc-modal-root"></div>
+
+    <script src="i18n.js"></script>
+    <script src="xizmat-tarixi.js"></script>
+</body>
+</html>
